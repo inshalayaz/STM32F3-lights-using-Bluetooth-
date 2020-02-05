@@ -1,26 +1,3 @@
-// #![deny(unsafe_code)]
-// #![no_main]
-// #![no_std]
-
-// #[allow(unused_imports)]
-// use aux11::{entry, iprint, iprintln};
-
-// #[entry]
-// fn main() -> ! {
-//     let (usart1, mono_timer, itm, gpioe) = aux11::init();
-
-//     // Send a single character
-//     // gpioe.bsrr.write(|w| w.bs9().set_bit());
-//     // usart1.tdr.write(|w| w.tdr().bits(u16::from(b'X')));
-//     // gpioe.bsrr.write(|w| w.br9().set_bit());
-
-//     loop {
-//         while usart1.isr.read().rxne().bit_is_clear() {};
-//         let _byte = usart1.rdr.read().rdr().bits() as u8;
-//     }
-// }
-
-//#![deny(unsafe_code)]
 #![no_main]
 #![no_std]
 use core::ptr;
@@ -31,8 +8,6 @@ use aux11::{entry, iprint, iprintln};
 fn main() -> ! {
     let (usart1, mono_timer, mut itm, gpioe, rcc) = aux11::init();
     rcc.ahbenr.modify(|_, w| w.iopeen().set_bit());
-    // gpioe.moder.modify(|_, w| w.moder8().output());
-
     loop {
         // Wait until there's data available
         while usart1.isr.read().rxne().bit_is_clear() {}
